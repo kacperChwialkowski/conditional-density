@@ -22,7 +22,11 @@
 \begin{abstract}
 \end{abstract}
 
+
+
+
 \section{One approach}
+\label{sec:option1}
 Here we will assume that the conditional density can be written as 
 \begin{equation}
 p_0(x|y) = q(x,y)exp(f(x,y) - A(T))
@@ -76,32 +80,86 @@ We don't really care about the third since it is constant.
 
 
 \section{Other option}
-
+\label{sec:option2}
 Consider a function $T(x,y)$ which is a bilinear form in some Hilbert space  $T(x,y) = \langle \phi(x), T \phi(y) \rangle $, where mapping $\phi$ and is an injection to some RKHS. Consider the following function
 \begin{equation}
-f(x,y) = q(x,y)exp(T(x,y) - A(T)),
+p(x|y) = q(x,y)exp(T(x,y) - A(T)),
 \end{equation}
 such that for all 
 \begin{equation}
 \label{eq:toOne}
- \int f(x,y) dx = 1. 
+ \int q(x,y)exp(T(x,y) - A(T)) = 1. 
 \end{equation}
-We are thinking of $f$ as a conditional density. We consider Fisher divergence of $f$ and the true conditional density $f_0$, we suppose that $g_0$ is a true density associated with $f_0$ 
+We consider Fisher divergence of $p(x|y)$ and the true conditional density $p(x|y)_0$, we suppose that $g_0$ is a true density associated with $f_0$ 
 \begin{equation}
-J(f_0|f) = \int g_0(x,y) \parallel \frac{\partial \log f_0(x,y)} {\partial x} -\frac{\partial \log f(x,y)} {\partial x} \parallel^2 dx dy  
+J(f_0|f) = \int g_0(x,y) \parallel \frac{\partial T(x,y)} {\partial x} -\frac{\partial T(x,y)} {\partial x} \parallel^2 dx dy  
 \end{equation}
 
-\begin{lemma}
-There exists an operator $C$ such that
+\section{Yet another solution}
+The problem with solution \ref{sec:option1} and \ref{sec:option2} is that we can not enforce that 
 \begin{equation}
-J(T):= J(f_0|f) = \rangle (T-T_0),C(T-T_0) \langle
-\end{equation} 
-\end{lemma}
+ \int p(x|y) dx = 1,
+\end{equation}
+and therefore we have to re-normalize the functions that we get. One way to solve it would be use different form of a density e.g.
+\begin{equation}
+ p(x|y) = f(x,y)^2
+\end{equation}
+and different divergence i.e.
+\begin{equation}
+ J(f_0|f) = \int \int (f(x,y)^2 - f_0(x,y)^2)^2 p_0(y) dx dy 
+\end{equation}
+now we can actually enforce that 
+\begin{equation}
+\int f(x,y)^2 =1,  
+\end{equation}
+since it is possible to show that the solution will be of the  form $\sum_{i=1}^n \alpha_i k((x_i,y_i),(x,y))$ and $x$ can be (sometimes) analytically integrated out so that we have an equality  constraint on the minimization problem. But we need to show that the solution will be of this form.
 
-\begin{proof}
+
 \begin{align}
-\int g_0(x,y) \parallel \frac{\partial \log f_0(x,y)} {\partial x} -\frac{\partial \log f(x,y)} {\partial x} \parallel^2 dx dy \\
-\end{align} 
-\end{proof}
+ J(f_0|f) &= \int f^4(x,y) p_0(y) dx dy - 2 \int f^2(x,y) f_0^2(x,y) p(y) dx dy + \int f^4(x,y) p_0(y) dx dy 
+\end{align}
+For the first term there exists a tensor $C_4 = \int \phi(x,y) \otimes \phi(x,y) \otimes \phi(x,y) \otimes \phi(x,y) p_0(y) dx dy$, such that 
+\begin{equation}
+ \int f(x,y)^4 p_0(y) dx dy = \langle f \otimes f \otimes f \otimes f , C_4 \rangle.
+\end{equation}
+For the middle term 
+\begin{align}
+\int &f^2(x,y) f_0^2(x,y) p(y) dx dy = \int f^2(x,y) p_0(x,y) \\
+ =&  \langle f \otimes f  , \int \phi(x,y) \otimes \phi(x,y) p_0(x,y) \rangle \\
+ =& \langle f \otimes f  , C_2 \rangle.
+\end{align}
+Last term is constant. The empirical tensors $C_2$ and $C_4$ are quite different. We assume that $\phi(x,y) = \phi(x) \otimes \phi(y)$ (implicit indexes $ \phi_x(x)$ etc.) The first one is 
+\begin{equation}
+ C_4 = \left( \int \phi(x) \otimes \phi(x) \otimes \phi(x) \otimes \phi(x) dx  \right)  \otimes \left( \frac 1 n\sum_{1 \leq i \leq n}  \phi(Y_{i}) \otimes \phi(Y_{i}) \otimes \phi(Y_{i}) \otimes \phi(Y_{i}) \right). 
+\end{equation}
+$C_2$ is
+\begin{equation}
+ C_2 = \frac 1 n \sum_{1 \leq i \leq n } \phi(Y_{i},X_{i}) \otimes \phi(Y_{i},X_{i}) 
+\end{equation}
+The empirical divergence looks much nicer
+\begin{align}
+ \langle f, \phi(x) \otimes
+\end{align}
+We need to notice that none of the terms in $C_4$ imply any restrictions on the solution i.e. for any $f$  
+\begin{equation}
+ \langle  (\otimes f)^4  ,  \left( \int  (\otimes \phi(x))^4 dx  \right)  \otimes \left(    (\otimes \phi(Y_{i}))^4 \right) \rangle = \int f(x,y_i)^4 dx > 0
+\end{equation}
+i.e. $C_2$ has no null space. On the other hand $\bar C_2$ imposes some conditions about solution, since 
+\begin{equation}
+ \langle f, \bar C_2 f \rangle = \frac 1 n \sum_{i=1}^n \langle f , \phi(X_i,Y_i) \rangle^2   
+\end{equation}
+so the solution should be spanned by the $H = \{ \phi(X_i,Y_i) \}_{1 \leq i \leq n}$. Suppose that divergence is minimized by some $h = h_1 + h_2$ where $h_1 \in H$ and $h_2$ sits in the orthonormal complement of $H$. Then 
+\begin{equation}
+ \langle h_1 + h_2 , \phi(X_i,Y_i) \rangle^2 =\langle h_1 , \phi(X_i,Y_i) \rangle
+\end{equation}
+so the second term is not getting smaller. Adding $h_2$ to the solution might minimize the first term, but 
+
+
+
+
+
+
+
+
 
 \end{document}
