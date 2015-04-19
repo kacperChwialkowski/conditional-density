@@ -152,8 +152,36 @@ so the solution should be spanned by the $H = \{ \phi(X_i,Y_i) \}_{1 \leq i \leq
 \begin{equation}
  \langle h_1 + h_2 , \phi(X_i,Y_i) \rangle^2 =\langle h_1 , \phi(X_i,Y_i) \rangle
 \end{equation}
-so the second term is not getting smaller. Adding $h_2$ to the solution might minimize the first term, but 
+so the second term is not getting smaller. Adding $h_2$ to the solution might minimize the first term, but it is unclear what should be added. We will show that as we increase the number of the observations we are getting closer to a function $h_1 + h_2$ that minimizes the whole expression.
+For now we calculate the empirical divergence. The second part is
+\begin{align}
+  \langle f, \bar C_2 f \rangle = \frac 1 n \sum_{i=1}^n \langle f , \phi(X_i,Y_i) \rangle^2 \\
+  = \frac 1 n \sum_{i=1}^n \langle \sum_{j=1}^{n} \alpha_j \phi(X_j,Y_j) , \phi(X_i,Y_i) \rangle^2 \\
+   = \frac 1 n \sum_{i,j_1,j_2=1}^n \alpha_{j_1} \alpha_{j_2} k(X_{j_1},X_i) k(X_{j_2},X_i)  k(Y_{j_1},Y_i) k(Y_{j_2},Y_i) 
+\end{align}
+And the first term looks like that 
+\begin{align}
+  \frac 1 n \sum_{i=1}^n \langle  (\otimes f)^4  ,  \left( \int  (\otimes \phi(x))^4 dx  \right)  \otimes \left(    (\otimes \phi(Y_{i}))^4 \right) \rangle \\
+  = \frac 1 n \sum_{i=1}^n \langle  ( \sum_{j=1}^{n} \alpha_j \phi(X_j,Y_j))^4  ,  \left( \int  (\otimes \phi(x))^4 dx  \right)  \otimes \left(    (\otimes \phi(Y_{i}))^4 \right) \rangle \\
+  =\frac 1 n \sum_{i,j_1,j_2,j_3,j_4=1}^n  \alpha_{j_1} \alpha_{j_2} \alpha_{j_3} \alpha_{j_4} \langle \phi(X_{j_1}) \otimes (Y_{j_1}) \otimes  \phi(X_{j_2}) \otimes (Y_{j_2}) \otimes  \phi(X_{j_3}) \otimes (Y_{j_3}) \otimes  \phi(X_{j_4}) \otimes (Y_{j_4})\\
+  ,\left( \int  (\otimes \phi(x))^4 dx  \right)  \otimes \left(    \otimes \phi(Y_{i}) \right)^4 \rangle \\
+  =\frac 1 n \sum_{i,j_1,j_2,j_3,j_4=1}^n  \alpha_{j_1} \alpha_{j_2} \alpha_{j_3} \alpha_{j_4} \left( \int k(X_{j_1},x) k(X_{j_2},x) k(X_{j_3},x) k(X_{j_4},x)  dx \right) \\ 
+    k(Y_{j_1},Y_i) k(Y_{j_2},Y_i)k(Y_{j_3},Y_i)k(Y_{j_4},Y_i)
+\end{align}
+This integral is a sad little thing, but basically there are two cases. Either after integration we can factorize the result or not. If we can (we can for Gaussian kernel ) we have  
+\begin{align}
+ =\frac 1 n \sum_{i,j_1,j_2,j_3,j_4=1}^n  \alpha_{j_1} \alpha_{j_2} \alpha_{j_3} \alpha_{j_4}  f(X_{j_1}) f(X_{j_2}) f(X_{j_3}) f(X_{j_4})   \\ 
+    k(Y_{j_1},Y_i) k(Y_{j_2},Y_i)k(Y_{j_3},Y_i)k(Y_{j_4},Y_i)
+\end{align}
+Finally we need to calculate the constraint
+\begin{align}
+ \int \left( \sum_{j=1}^{n} \alpha_j  k(X_{j},x)  k(Y_{j},y) \right )^2 dx \\ 
+ = \int  \sum_{j,i=1}^{n} \alpha_j  k(X_{j},x)  k(Y_{j},y) k(X_{i},x)  k(Y_{i},y)  dx\\
+ =   \sum_{j,i=1}^{n} \alpha_j  f(X_{j},x)  k(Y_{j},y) f(X_{i},x)  k(Y_{i},y)  \\
+\end{align}
+The latter must be equal to to.
 
+Now we need to prove that we recover optimal solution asymptotically. We know that $f$ can be written as $f = \sum_{i=1}^{D} \phi(X_i,Y_i)$. Set $D$ trap-balls of radius $\epsilon/D$ around those $D$ points and wait until all traps are non-empty. Using Borel-Cantelli we know that we will succeed since the probability of falling into any of the traps is positive.          
 
 
 
