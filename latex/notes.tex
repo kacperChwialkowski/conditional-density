@@ -24,110 +24,49 @@
 
 
 
-
-\section{One approach}
-\label{sec:option1}
-Here we will assume that the conditional density can be written as 
-\begin{equation}
-p_0(x|y) = q(x,y)exp(f(x,y) - A(T))
-\end{equation} 
-By Proposition 1 from the paper [Inf] quite a few conditional densities can be approximated by functions of this type. We need to redefine Fisher divergence   
-\begin{align}
-J(p_0|p) &= \int \left( \int p_0(x|y) \parallel \frac{\partial  f_0(x,y)} {\partial x} -\frac{\partial  f(x,y)} {\partial x} \parallel^2 \right )p(y) dx dy  \\
-&=  \int  \parallel \frac{\partial  f_0(x,y)} {\partial x} -\frac{\partial  f(x,y)} {\partial x} \parallel^2 p_0(x,y) dx dy \\
-&=  \int   \left \langle f-f_0,\frac{\partial  k( (x,y), \cdot)} {\partial x} \right \rangle^2    p_0(x,y) dx dy
-\end{align}
-The reasoning for the Theorem 3 follows. For the sake of simplicity I assume that $x$ is one dimensional. In particular we have that 
-\begin{equation}
- C := \int  p_0(x,y) \frac{\partial  k( (x,y), \cdot)} {\partial x} \otimes \frac{\partial  k( (x,y), \cdot)} {\partial x} dx dy
-\end{equation}
-and 
-\begin{equation}
- J(f) := J(p_0|p) = \langle (f -f_0),C(f -f_0) \rangle.
-\end{equation}
-Also 
-\begin{equation}
- J(f) = \langle f,Cf \rangle + \langle f,\xi \rangle + Const
-\end{equation}
-but $\xi$ is looks sightly different. Using the fact that
-\begin{equation}
- \frac{\partial  f(x,y)} {\partial x}  = \frac{\partial  \log p_0(x|y)}{\partial x} - \frac{\partial  \log q(x,y)}{\partial x}
-\end{equation}
-
-\begin{align}
-&\langle f,Cf_0 \rangle \\
-=& \int p_0(x,y) \frac{\partial  f(x,y)} {\partial x} \frac{\partial  f_0(x,y)} {\partial x} dx dy \\
-=& \int p_0(x,y) \frac{\partial  f(x,y)} {\partial x} \frac{\partial  \log p_0(x|y)}{\partial x} - \int p_0(x,y) \frac{\partial  f(x,y)} {\partial x} \frac{\partial  \log q(x,y)}{\partial x} \\
-=&  \int   \left(\int  \frac{\partial  f(x,y)} {\partial x} \frac{\partial  p_0(x|y)}{\partial x} dx \right) p(y) dy 
-- \int p_0(x,y) \frac{\partial  f(x,y)} {\partial x} \frac{\partial  \log q(x,y)}{\partial x} dx dy \\
-\end{align}
-Now the first inner  integral (check that it exists !) will be reduced by integration by parts  
-\begin{align}
-\int&  \frac{\partial  f(x,y)} {\partial x} \frac{\partial  p_0(x|y)}{\partial x} dx \\
-&=  \frac{\partial f(x,y)} {\partial x} p_0(x|y) \mid_{-\infty}^{\infty} - \int \frac{\partial f(x,y)} {\partial x}^2 p_0(x|y)
-\end{align}
-we assume that $\frac{\partial f(x,y)} {\partial x} p_0(x|y) \mid_{-\infty}^{\infty} =0$, plug in and have 
-\begin{align}
-&\langle f,Cf_0 \rangle \\
-=&  \int   \frac{\partial f(x,y)} {\partial x}^2  p_0(x,y) dx dy - \int p_0(x,y) \frac{\partial  f(x,y)} {\partial x} \frac{\partial  \log q(x,y)}{\partial x} dx dy \\
-=& -\int p_0(x,y) \left \langle f , \frac{\partial  k( (x,y), \cdot)} {\partial x}^2+ \frac{\partial  k( (x,y), \cdot)} {\partial x}\frac{\partial  \log q(x,y)}{\partial x} \right \rangle
-\end{align}
-so 
-\begin{equation}
- \xi =-\int p_0(x,y)  \left( \frac{\partial  k( (x,y), \cdot)} {\partial x}^2+ \frac{\partial  k( (x,y), \cdot)} {\partial x}\frac{\partial  \log q(x,y)}{\partial x} \right)
-\end{equation}
-We don't really care about the third since it is constant.
-
-
-\section{Other option}
-\label{sec:option2}
-Consider a function $T(x,y)$ which is a bilinear form in some Hilbert space  $T(x,y) = \langle \phi(x), T \phi(y) \rangle $, where mapping $\phi$ and is an injection to some RKHS. Consider the following function
-\begin{equation}
-p(x|y) = q(x,y)exp(T(x,y) - A(T)),
-\end{equation}
-such that for all 
-\begin{equation}
-\label{eq:toOne}
- \int q(x,y)exp(T(x,y) - A(T)) = 1. 
-\end{equation}
-We consider Fisher divergence of $p(x|y)$ and the true conditional density $p(x|y)_0$, we suppose that $g_0$ is a true density associated with $f_0$ 
-\begin{equation}
-J(f_0|f) = \int g_0(x,y) \parallel \frac{\partial T(x,y)} {\partial x} -\frac{\partial T(x,y)} {\partial x} \parallel^2 dx dy  
-\end{equation}
-
-\section{Yet another solution}
-The problem with solution \ref{sec:option1} and \ref{sec:option2} is that we can not enforce that 
-\begin{equation}
- \int p(x|y) dx = 1,
-\end{equation}
-and therefore we have to re-normalize the functions that we get. One way to solve it would be use different form of a density e.g.
+\section{Squared functions}
+We propose the following form of the conditional density 
 \begin{equation}
  p(x|y) = f(x,y)^2
 \end{equation}
-and different divergence i.e.
+and quadratic  divergence i.e.
 \begin{equation}
- J(f_0|f) = \int \int (f(x,y)^2 - f_0(x,y)^2)^2 p_0(y) dx dy 
+ J(f_0|f) = \int \int (f(x,y)^2 - f_0(x,y)^2)^2 p_0(y) dx dy. 
 \end{equation}
-now we can actually enforce that 
+We will be able to enforce that 
 \begin{equation}
 \int f(x,y)^2 =1,  
 \end{equation}
-since it is possible to show that the solution will be of the  form $\sum_{i=1}^n \alpha_i k((x_i,y_i),(x,y))$ and $x$ can be (sometimes) analytically integrated out so that we have an equality  constraint on the minimization problem. But we need to show that the solution will be of this form.
-
-
+since the solution will be of a form $f = \sum_{i=1}^n \alpha_i \phi((x_i,y_i))$. We will be working with the product feature space  $\phi(x,y) = \phi(x) \otimes \phi(y)$. First we expand the divergence
 \begin{align}
- J(f_0|f) &= \int f^4(x,y) p_0(y) dx dy - 2 \int f^2(x,y) f_0^2(x,y) p(y) dx dy + \int f^4(x,y) p_0(y) dx dy 
+ J(f_0|f) &= \int f^4(x,y) p_0(y) dx dy - 2 \int f^2(x,y) f_0^2(x,y) p(y) dx dy  \\
+ &+ \int f^4(x,y) p_0(y) dx dy 
 \end{align}
-For the first term there exists a tensor $C_4 = \int \phi(x,y) \otimes \phi(x,y) \otimes \phi(x,y) \otimes \phi(x,y) p_0(y) dx dy$, such that 
-\begin{equation}
- \int f(x,y)^4 p_0(y) dx dy = \langle f \otimes f \otimes f \otimes f , C_4 \rangle.
-\end{equation}
-For the middle term 
+The middle term can be expressed in terms of operator as in [Inf] 
 \begin{align}
 \int &f^2(x,y) f_0^2(x,y) p(y) dx dy = \int f^2(x,y) p_0(x,y) \\
  =&  \langle f \otimes f  , \int \phi(x,y) \otimes \phi(x,y) p_0(x,y) \rangle \\
  =& \langle f \otimes f  , C_2 \rangle.
 \end{align}
+The empirical counterpart of the tensor $C_2$ is
+\begin{equation}
+ \bar C_2 = \frac 1 n \sum_{1 \leq i \leq n } \phi(Y_{i},X_{i}) \otimes \phi(Y_{i},X_{i}). 
+\end{equation}
+$\bar C_2$ imposes some conditions about solution, since 
+\begin{equation}
+ \langle f, \bar C_2 f \rangle = \frac 1 n \sum_{i=1}^n \langle f , \phi(X_i,Y_i) \rangle^2   
+\end{equation}
+so we choose solution to be spanned by the $H = \{ \phi(X_i,Y_i) \}_{1 \leq i \leq n}$. The function that lies in the span of $H$ not necessarily minimizes the divergence $J$, but we will see that the approximate solution that belongs to $H$ converges to $f_0$. The first term does not impose any form on the solution since the following integral operator
+\begin{equation}
+ D(h) := \int h(x,y)^4 dx \geq 0
+\end{equation}
+has zero null space.
+
+For the first term there exists a tensor $C_4 = \int \phi(x,y) \otimes \phi(x,y) \otimes \phi(x,y) \otimes \phi(x,y) p_0(y) dx dy$, such that 
+\begin{equation}
+ \int f(x,y)^4 p_0(y) dx dy = \langle f \otimes f \otimes f \otimes f , C_4 \rangle.
+\end{equation}
+
 Last term is constant. The empirical tensors $C_2$ and $C_4$ are quite different. We assume that $\phi(x,y) = \phi(x) \otimes \phi(y)$ (implicit indexes $ \phi_x(x)$ etc.) The first one is 
 \begin{equation}
  C_4 = \left( \int \phi(x) \otimes \phi(x) \otimes \phi(x) \otimes \phi(x) dx  \right)  \otimes \left( \frac 1 n\sum_{1 \leq i \leq n}  \phi(Y_{i}) \otimes \phi(Y_{i}) \otimes \phi(Y_{i}) \otimes \phi(Y_{i}) \right). 
@@ -183,6 +122,93 @@ The latter must be equal to to.
 
 Now we need to prove that we recover optimal solution asymptotically. We know that $f$ can be written as $f = \sum_{i=1}^{D} \phi(X_i,Y_i)$. Set $D$ trap-balls of radius $\epsilon/D$ around those $D$ points and wait until all traps are non-empty. Using Borel-Cantelli we know that we will succeed since the probability of falling into any of the traps is positive.          
 
+
+
+\section{Exponential families are tricky for conditional density}
+If we the conditional density is written as 
+\begin{equation}
+p_0(x|y) = q(x,y)exp(f(x,y) - A(T(y)) )
+\end{equation} 
+it is hard to force that for all $y$
+\begin{equation}
+\label{eq:hard}
+\int q(x,y)exp(f(x,y) - A(T(y)) )=1
+\end{equation}
+We are expecting that the solution will be of the form $f = \sum_{i=1}^n \alpha_i \frac{\partial  \phi( (X_i,Y_i), \cdot)} {\partial x} $ and it is impossible to enforce that \eqref{eq:hard} is true - see section \ref{sec:fail} for the reference.
+
+
+
+
+
+\section{Failures}
+\label{sec:fail}
+Here we will assume that the conditional density can be written as 
+\begin{equation}
+p_0(x|y) = q(x,y)exp(f(x,y) - A(T))
+\end{equation} 
+By Proposition 1 from the paper [Inf] quite a few conditional densities can be approximated by functions of this type. We need to redefine Fisher divergence   
+\begin{align}
+J(p_0|p) &= \int \left( \int p_0(x|y) \parallel \frac{\partial  f_0(x,y)} {\partial x} -\frac{\partial  f(x,y)} {\partial x} \parallel^2 \right )p(y) dx dy  \\
+&=  \int  \parallel \frac{\partial  f_0(x,y)} {\partial x} -\frac{\partial  f(x,y)} {\partial x} \parallel^2 p_0(x,y) dx dy \\
+&=  \int   \left \langle f-f_0,\frac{\partial  k( (x,y), \cdot)} {\partial x} \right \rangle^2    p_0(x,y) dx dy
+\end{align}
+The reasoning for the Theorem 3 follows. For the sake of simplicity I assume that $x$ is one dimensional. In particular we have that 
+\begin{equation}
+ C := \int  p_0(x,y) \frac{\partial  k( (x,y), \cdot)} {\partial x} \otimes \frac{\partial  k( (x,y), \cdot)} {\partial x} dx dy
+\end{equation}
+and 
+\begin{equation}
+ J(f) := J(p_0|p) = \langle (f -f_0),C(f -f_0) \rangle.
+\end{equation}
+Also 
+\begin{equation}
+ J(f) = \langle f,Cf \rangle + \langle f,\xi \rangle + Const
+\end{equation}
+but $\xi$ is looks sightly different. Using the fact that
+\begin{equation}
+ \frac{\partial  f(x,y)} {\partial x}  = \frac{\partial  \log p_0(x|y)}{\partial x} - \frac{\partial  \log q(x,y)}{\partial x}
+\end{equation}
+
+\begin{align}
+&\langle f,Cf_0 \rangle \\
+=& \int p_0(x,y) \frac{\partial  f(x,y)} {\partial x} \frac{\partial  f_0(x,y)} {\partial x} dx dy \\
+=& \int p_0(x,y) \frac{\partial  f(x,y)} {\partial x} \frac{\partial  \log p_0(x|y)}{\partial x} - \int p_0(x,y) \frac{\partial  f(x,y)} {\partial x} \frac{\partial  \log q(x,y)}{\partial x} \\
+=&  \int   \left(\int  \frac{\partial  f(x,y)} {\partial x} \frac{\partial  p_0(x|y)}{\partial x} dx \right) p(y) dy 
+- \int p_0(x,y) \frac{\partial  f(x,y)} {\partial x} \frac{\partial  \log q(x,y)}{\partial x} dx dy \\
+\end{align}
+Now the first inner  integral (check that it exists !) will be reduced by integration by parts  
+\begin{align}
+\int&  \frac{\partial  f(x,y)} {\partial x} \frac{\partial  p_0(x|y)}{\partial x} dx \\
+&=  \frac{\partial f(x,y)} {\partial x} p_0(x|y) \mid_{-\infty}^{\infty} - \int \frac{\partial f(x,y)} {\partial x}^2 p_0(x|y)
+\end{align}
+we assume that $\frac{\partial f(x,y)} {\partial x} p_0(x|y) \mid_{-\infty}^{\infty} =0$, plug in and have 
+\begin{align}
+&\langle f,Cf_0 \rangle \\
+=&  \int   \frac{\partial f(x,y)} {\partial x}^2  p_0(x,y) dx dy - \int p_0(x,y) \frac{\partial  f(x,y)} {\partial x} \frac{\partial  \log q(x,y)}{\partial x} dx dy \\
+=& -\int p_0(x,y) \left \langle f , \frac{\partial  k( (x,y), \cdot)} {\partial x}^2+ \frac{\partial  k( (x,y), \cdot)} {\partial x}\frac{\partial  \log q(x,y)}{\partial x} \right \rangle
+\end{align}
+so 
+\begin{equation}
+ \xi =-\int p_0(x,y)  \left( \frac{\partial  k( (x,y), \cdot)} {\partial x}^2+ \frac{\partial  k( (x,y), \cdot)} {\partial x}\frac{\partial  \log q(x,y)}{\partial x} \right)
+\end{equation}
+We don't really care about the third since it is constant.
+
+
+\subsection{Other option}
+\label{sec:option2}
+Consider a function $T(x,y)$ which is a bilinear form in some Hilbert space  $T(x,y) = \langle \phi(x), T \phi(y) \rangle $, where mapping $\phi$ and is an injection to some RKHS. Consider the following function
+\begin{equation}
+p(x|y) = q(x,y)exp(T(x,y) - A(T)),
+\end{equation}
+such that for all 
+\begin{equation}
+\label{eq:toOne}
+ \int q(x,y)exp(T(x,y) - A(T)) = 1. 
+\end{equation}
+We consider Fisher divergence of $p(x|y)$ and the true conditional density $p(x|y)_0$, we suppose that $g_0$ is a true density associated with $f_0$ 
+\begin{equation}
+J(f_0|f) = \int g_0(x,y) \parallel \frac{\partial T(x,y)} {\partial x} -\frac{\partial T(x,y)} {\partial x} \parallel^2 dx dy  
+\end{equation}
 
 
 
