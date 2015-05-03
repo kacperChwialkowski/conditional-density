@@ -133,7 +133,35 @@ To sum up we have the following problem to solve: minimize
   & \quad \quad -\left( \sum_{j=1}^{n} \alpha_j k(X_i,X_j) k(Y_j,Y_i) \right)^2 - \left( \sum_{j=1}^{n} \alpha_j  g(X_{j})  k(Y_{j},Y_i) \right )^2 \Bigg]   
 \end{align}
 
+\section{CCP}
 
+So wee ccp
+\begin{align}
+  \frac 1 n & \sum_{i=1}^{n} \left(   \sum_{j=1}^{n} \alpha_j k(X_i,X_j) k(Y_j,Y_i) \right)^2  \\
+  = & \frac 1 n  \sum_{i=1}^{n} \left(   \sum_{j=1}^{n} \alpha_j C_{i,j} \right)^2 
+\end{align}
+
+\begin{align}
+  &\frac{  \partial  \frac 1 n  \sum_{i=1}^{n} \left(   \sum_{j=1}^{n} \alpha_j C_{i,j} \right)^2}{ \partial \alpha_w} \\
+ & =\frac 1 n  \sum_{i=1}^{n}  \frac{ \partial \left(   \sum_{j=1}^{n} \alpha_j C_{i,j} \right)^2}{ \partial \alpha_w} \\
+   &   = \frac 1 n  \sum_{i=1}^{n}   \left(   \sum_{j=1}^{n} \alpha_j C_{i,j} \right) \frac{ \partial \sum_{j=1}^{n} \alpha_j C_{i,j} }{ \partial \alpha_w} \\
+   &=  \frac 1 n  \sum_{i=1}^{n}  C_{i,w} \left(   \sum_{j=1}^{n} \alpha_j C_{i,j} \right) \\
+   &  \frac 1 n  \sum_{i=1}^{n}  C_{i,w} \langle C_{i\,\cdot} \alpha \rangle \\
+   & = \langle C_{\cdot,w}^T , C\alpha \rangle
+\end{align}
+so for all $w$ we have 
+$$
+C^T C \alpha
+$$
+Silly enough if we denote  $D_{i,j} =  g(X_{j})  k(Y_{j},Y_i)$ we have other derivative 
+$$
+D^T D \alpha
+$$
+Finally the first term is $\frac 1 n \sum_{i}^{n} \langle \alpha, D_{\cdot,i} \rangle^4 = mean( (D\alpha)^{**}4)$, second is $mean( (C\alpha)^{**}2)$, 
+third is $mean( (D\alpha)^{**}2)$. Each approximation will be
+\begin{equation}
+ mean( (C\alpha_k)^{**}4 - (C\alpha_k)^{**}2 - (D\alpha_k)^{**}2 ) - (C^T C+D^T D) \alpha_k (\alpha - \alpha_k ) 
+\end{equation}
 
 
 \section{Exponential families are tricky for conditional density}
