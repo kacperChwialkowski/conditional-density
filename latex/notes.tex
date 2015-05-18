@@ -97,16 +97,16 @@ Later we will show  that this empirical integral converges to the true integral.
 \end{align}
 For the rest of the note let us assume that  
 $$
-\int \prod_{1<i<d} k(X_i,x) dx   = \prod_{1<i<d}  g(X_i), 
+\int \prod_{1<i<d} k(X_i,x) dx   = \prod_{1<i<d}  g(X_i) =1, 
 $$
 which is true for e.g. Gaussian kernels. Using this we can rewrite the first term of $Q$ \eqref{eq:fst_emp} as
 \begin{equation}
- \frac 1 n \sum_{i=1}^{n} D(f)(Y_i) =  \frac 1 n \sum_{i=1}^{n} \left( \sum_{j=1}^{n} \alpha_j k(Y_j,Y_i) g(X_j) \right)^4
+ \frac 1 n \sum_{i=1}^{n} D(f)(Y_i) =  \frac 1 n \sum_{i=1}^{n} \left( \sum_{j=1}^{n} \alpha_j k(Y_j,Y_i)  \right)^4
 \end{equation}
 and the constraint as \eqref{eq:constraintE} as
 \begin{equation}
 \label{eq:const2}
-\int f(x,y)^2 dx=  \left( \sum_{j=1}^{n} \alpha_j  g(X_{j})  k(Y_{j},y) \right )^2 
+\int f(x,y)^2 dx=  \left( \sum_{j=1}^{n} \alpha_j    k(Y_{j},y) \right )^2 
 \end{equation}
 
 \subsection{Empirical constraint}
@@ -121,48 +121,48 @@ After unfolding
 The first term if $I$ is the same as the first term of $Q$. The second (which does nor impose any constraints on the solution) is easily derived from the equation \eqref{eq:const2} 
 \begin{align}
  &\int f^2(x,y) p_0(y) dx dy =  \int \left ( \int f^2(x,y) dx \right ) p_0(y)  dy\\ 
- &\frac 1 n \sum_{i=1}^n \left( \sum_{j=1}^{n} \alpha_j  g(X_{j})  k(Y_{j},Y_i) \right )^2 .
+ &\frac 1 n \sum_{i=1}^n \left( \sum_{j=1}^{n} \alpha_j    k(Y_{j},Y_i) \right )^2 .
 \end{align}
 
 To sum up we have the following problem to solve: minimize 
 \begin{align}
  J&(f_0,f) +I(f,f_0) = \\
- &=\left[  \frac 1 n \sum_{i=1}^{n} \left( \sum_{j=1}^{n} \alpha_j k(Y_j,Y_i) g(X_j) \right)^4 - \frac 1 n \sum_{i=1}^n \left( \sum_{j=1}^{n} \alpha_j k(X_i,X_j) k(Y_j,Y_i) \right)^2 \right] + \\
- &+ \left[  \frac 1 n \sum_{i=1}^{n} \left( \sum_{j=1}^{n} \alpha_j k(Y_j,Y_i) g(X_j) \right)^4 - \frac 1 n \sum_{i=1}^n \left( \sum_{j=1}^{n} \alpha_j  g(X_{j})  k(Y_{j},Y_i) \right )^2 \right] \\
- &=  \frac 1 n \sum_{i=1}^{n}   \Bigg [ 2 \left( \sum_{j=1}^{n} \alpha_j k(Y_j,Y_i) g(X_j) \right)^4 - \\
-  & \quad \quad -\left( \sum_{j=1}^{n} \alpha_j k(X_i,X_j) k(Y_j,Y_i) \right)^2 - \left( \sum_{j=1}^{n} \alpha_j  g(X_{j})  k(Y_{j},Y_i) \right )^2 \Bigg]   
+ &=\left[  \frac 1 n \sum_{i=1}^{n} \left( \sum_{j=1}^{n} \alpha_j k(Y_j,Y_i)  \right)^4 - \frac 1 n \sum_{i=1}^n \left( \sum_{j=1}^{n} \alpha_j k(X_i,X_j) k(Y_j,Y_i) \right)^2 \right] + \\
+ &+ \left[  \frac 1 n \sum_{i=1}^{n} \left( \sum_{j=1}^{n} \alpha_j k(Y_j,Y_i)  \right)^4 - \frac 1 n \sum_{i=1}^n \left( \sum_{j=1}^{n} \alpha_j    k(Y_{j},Y_i) \right )^2 \right] \\
+ &=  \frac 1 n \sum_{i=1}^{n}   \Bigg [ 2 \left( \sum_{j=1}^{n} \alpha_j k(Y_j,Y_i)  \right)^4 - \\
+  & \quad \quad -\left( \sum_{j=1}^{n} \alpha_j k(X_i,X_j) k(Y_j,Y_i) \right)^2 - \left( \sum_{j=1}^{n} \alpha_j    k(Y_{j},Y_i) \right )^2 \Bigg]   
 \end{align}
 
-\section{CCP}
+\section{Convex concave programing}
 
-So wee ccp
+For the convex concave programing we need to replace the concave term with its linear part. Notice that the linear concave part is a second order polynomial 
 \begin{align}
   \frac 1 n & \sum_{i=1}^{n} \left(   \sum_{j=1}^{n} \alpha_j k(X_i,X_j) k(Y_j,Y_i) \right)^2  \\
-  = & \frac 1 n  \sum_{i=1}^{n} \left(   \sum_{j=1}^{n} \alpha_j C_{i,j} \right)^2 
+  = & \frac 1 n  \sum_{i=1}^{n} \left(   \sum_{j=1}^{n} \alpha_j C_{i,j} \right)^2 \\
+  = & \frac 1 n \sum_{i=1}^{n} \langle \alpha \otimes \alpha , C_{i,\cdot} \otimes C_{i,\cdot} \rangle \\
+   = & \langle \alpha \otimes \alpha , C^2 \rangle \\
+   = &\alpha C^2 \alpha
 \end{align}
-
+In this notation $C$ is a symmetric  matrix, $C_{i,\cdot}$ is its $i$-th row, $C_{\cdot,j}$ is its $j$-th column. We take derivative with respect to $\alpha$, to get . 
 \begin{align}
-  &\frac{  \partial  \frac 1 n  \sum_{i=1}^{n} \left(   \sum_{j=1}^{n} \alpha_j C_{i,j} \right)^2}{ \partial \alpha_w} \\
- & =\frac 1 n  \sum_{i=1}^{n}  \frac{ \partial \left(   \sum_{j=1}^{n} \alpha_j C_{i,j} \right)^2}{ \partial \alpha_w} \\
-   &   = \frac 1 n  \sum_{i=1}^{n}   \left(   \sum_{j=1}^{n} \alpha_j C_{i,j} \right) \frac{ \partial \sum_{j=1}^{n} \alpha_j C_{i,j} }{ \partial \alpha_w} \\
-   &=  \frac 1 n  \sum_{i=1}^{n}  C_{i,w} \left(   \sum_{j=1}^{n} \alpha_j C_{i,j} \right) \\
-   &  \frac 1 n  \sum_{i=1}^{n}  C_{i,w} \langle C_{i\,\cdot} \alpha \rangle \\
-   & = \langle C_{\cdot,w}^T , C\alpha \rangle
+\alpha 2 C^2
 \end{align}
-so for all $w$ we have 
-$$
-C^T C \alpha
-$$
-Silly enough if we denote  $D_{i,j} =  g(X_{j})  k(Y_{j},Y_i)$ we have other derivative 
-$$
-D^T D \alpha
-$$
-Finally the first term is $\frac 1 n \sum_{i}^{n} \langle \alpha, D_{\cdot,i} \rangle^4 = mean( (D\alpha)^{**}4)$, second is $mean( (C\alpha)^{**}2)$, 
-third is $mean( (D\alpha)^{**}2)$. Each approximation will be
-\begin{equation}
- mean( (C\alpha_k)^{**}4 - (C\alpha_k)^{**}2 - (D\alpha_k)^{**}2 ) - (C^T C+D^T D) \alpha_k (\alpha - \alpha_k ) 
-\end{equation}
+Similarly  if we denote  $D_{i,j} =    k(Y_{j},Y_i)$ we have for the term $\left( \sum_{j=1}^{n} \alpha_j    k(Y_{j},Y_i) \right )^2$ the derivative 
+\[
+\alpha 2 D^2 
+\]
+For the convex programing we need derivative of the convex  term as well. Recall that convex term is 
 
+\[
+ 2\frac 1 n \sum_{i=1}^{n}  \left( \sum_{j=1}^{n} \alpha_j k(Y_j,Y_i)  \right)^4 
+\]
+I don't see any better way to write the derivative  of this  terms  then
+\[
+ 4 \frac 1 n \sum_{i=1}^{n} \langle \alpha , D_{i,\cdot} \rangle^3   \alpha
+\]
+
+
+This is enough to do convex concave programing (we can find second derivative for better convergance). 
 
 \section{Exponential families are tricky for conditional density}
 If we the conditional density is written as 
